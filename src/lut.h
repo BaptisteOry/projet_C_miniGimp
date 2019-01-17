@@ -1,14 +1,17 @@
 #ifndef LUT_H__
 #define LUT_H__
 
-#include "image.h"
-
 typedef enum {ADDLUM, DIMLUM, ADDCON, DIMCON, INVERTLUT, SEPIA} lut;
 
-void DIMCON (Image* image, int n);
-void INVERT(Image* image);
-void SEPIA(Image* image, int coeff);
+void addlum(int param, int *lutAddlum);
+void dimlum(int param, int *lutAddlum);
+void addcon(int param, int *lutTab);
+void invertlut(int *lutTab);
+void applyLut(Image *image, lut *luts, int *params);
 
-int[] INVERTLUT();
+/*
+void dimcon(Image* image, int n);
+void sepia(Image* image, int coeff);
+*/
 
 #endif

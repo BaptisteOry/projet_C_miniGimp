@@ -3,7 +3,6 @@
 
 #include "image.h"
 
-
 int newImage(Image *image, unsigned int width, unsigned int height)
 {
   // memory allocation
