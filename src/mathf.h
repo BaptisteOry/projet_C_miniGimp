@@ -3,6 +3,7 @@
 
 float max(float a, float b);
 float min(float a, float b);
+int maxInArray(int tab[], int sizeTab);
 
 #endif
 

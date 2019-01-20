@@ -83,14 +83,13 @@ int loadImagePPM(Image *image, char *filename){
   
   // read width and height
   sscanf(chaine,"%d %d",&width,&height);
-  printf("width:  %d\nheight: %d\n",width,height);
 
   // read the "255"
   fscanf(myFile,"%s\n",chaine);
 
   // memory allocation
   if(newImage(image,width,height) == EXIT_FAILURE){
-    printf("loadImagePPM : memory allocation error\n");
+    printf("newImage : memory allocation error\n");
     return EXIT_FAILURE;
   }
 
