@@ -16,12 +16,14 @@ void dimlum(int param, int *lutAddlum);
 void addcon(int param, int *lutTab);
 void dimcon(int param, int *lutTab);
 void invert(int *lutTab);
+void sepia(int param, Image* image);
 lut convertStringToLut(char *str);
+void updateLutTab(int *lutTab);
 void applyLut(Image *image, LutsToApply *lutsChoosed);
 
 /*
-void dimcon(Image* image, int n);
-void sepia(Image* image, int coeff);
+void addconSimple(int param, int *lutTab);
+void dimconSimple(int param, int *lutTab);
 */
 
 #endif

@@ -31,6 +31,6 @@ int saveImagePPM(Image *image, char *filename);
 /// \return EXIT_FAILURE in case of problem, else EXIT_SUCCESS.
 int loadImagePPM(Image *image, char *filename);
 
-typedef enum {red, green, blue} colour;
+typedef enum {red, green, blue, all} colour;
 
 #endif

@@ -31,7 +31,7 @@ int main(int argc, char *argv[]){
     if(histogram){
         int histogramInputTab[256];
 
-        buildHistogram(&image, histogramInputTab, red);
+        buildHistogram(&image, histogramInputTab, all);
 
         Image histogramImageInput;
         buildHistogramImage(&histogramImageInput, histogramInputTab);
@@ -58,7 +58,7 @@ int main(int argc, char *argv[]){
     if(histogram){
         int histogramOutputTab[256];
 
-        buildHistogram(&image, histogramOutputTab, red);
+        buildHistogram(&image, histogramOutputTab, all);
 
         Image histogramImageOutput;
         buildHistogramImage(&histogramImageOutput, histogramOutputTab);

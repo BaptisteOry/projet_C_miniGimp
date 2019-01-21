@@ -29,7 +29,7 @@ mathf.o : mathf.c mathf.h
 	$(CC) $(CFLAGS) -c $<  
 	@echo "done..."
 
-lut.o : image.c image.h lut.c lut.h ihm.c ihm.h
+lut.o : mathf.c mathf.h image.c image.h lut.c lut.h ihm.c ihm.h
 	@echo "compile lut"
 	$(CC) $(CFLAGS) -c $<  
 	@echo "done..."
