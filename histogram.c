@@ -21,12 +21,16 @@ void buildHistogram(Image *image, int *histogramTab, colour colourChoosed) {
             histogramTab[value]=histogramTab[value]+1;
         }
     }
+    int max=maxInArray(histogramTab, 256);
+    for(int i=0; i<256; i++) {
+        histogramTab[i]=histogramTab[i]*1000/max;
+    }
 
 }
 
 int buildHistogramImage(Image *histogramImage, int *histogramTab) {
     int max = maxInArray(histogramTab, 256);
-    if(newImage(histogramImage, 256*50, max)){
+    if(newImage(histogramImage, 256*6, max)){
         printf("newImage for histogram : memory allocation error\n");
         return EXIT_FAILURE;
     }
