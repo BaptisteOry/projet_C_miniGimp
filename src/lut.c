@@ -6,7 +6,6 @@
 #include "mathf.h"
 #include "image.h"
 #include "lut.h"
-#include "ihm.h"
 
 void addlum(int param, int *lutTab) {
     for (int i = 0; i <= 255; i++){
@@ -19,7 +18,6 @@ void dimlum(int param, int *lutTab) {
         lutTab[i]=lutTab[i]-param;
     }
 }
-
 
 void addcon(int param, int *lutTab) {
     for (int i = 0; i <= 255; i++){
@@ -76,7 +74,7 @@ void updateLutTab(int *lutTab){
     }
 }
 
-void applyLut(Image *image, LutsToApply *lutsChoosed){
+void applyLut(Image *image, LutsToApply *lutsChoosed, char (*modifications)[255], int *nbModifications){
     // initialise tab lut
     int lutTab[256];
     for (int i = 0; i <= 255; i++){
@@ -86,33 +84,31 @@ void applyLut(Image *image, LutsToApply *lutsChoosed){
     for (int i = 0; i<lutsChoosed->nbLuts; i++){
         switch (convertStringToLut(lutsChoosed->luts[i])){
             case ADDLUM:
-            printf("Ajout de %s paramètre %d\n", lutsChoosed->luts[i], lutsChoosed->params[i]);
             addlum(lutsChoosed->params[i], lutTab);
             break;
             case DIMLUM:
-            printf("Ajout de %s paramètre %d\n", lutsChoosed->luts[i], lutsChoosed->params[i]);
             dimlum(lutsChoosed->params[i], lutTab);
             break;
             case ADDCON:
-            printf("Ajout de %s paramètre %d\n", lutsChoosed->luts[i], lutsChoosed->params[i]);
             addcon(lutsChoosed->params[i], lutTab);
             break;
             case DIMCON:
-            printf("Ajout de %s paramètre %d\n", lutsChoosed->luts[i], lutsChoosed->params[i]);
             dimcon(lutsChoosed->params[i], lutTab);
             break;
             case INVERT:
-            printf("Ajout de %s\n", lutsChoosed->luts[i]);
             invert(lutTab);
             break;
             case SEPIA:
-            printf("Ajout de %s paramètre %d\n", lutsChoosed->luts[i], lutsChoosed->params[i]);
             sepia(lutsChoosed->params[i], image);
             break;
-            default: 
-            printf("Cette LUT n'a pas été programmée.\n");
+            default: ;
             break;
         }
+        char modificationText[255];
+        sprintf(modificationText, "Ajout de %s paramètre %d\n", lutsChoosed->luts[i], lutsChoosed->params[i]);
+        printf("%s", modificationText);
+        strcpy(modifications[*nbModifications], modificationText);
+        (*nbModifications)++;
     }
 
     // apply tab lut

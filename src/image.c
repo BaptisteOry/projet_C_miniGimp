@@ -51,9 +51,7 @@ int saveImagePPM(Image *image, char *filename)
 
     // close the file
     fclose(myfile);
-  }
-  else
-  {
+  }else{
     printf("saveImagePPM : error opening file %s.\n",filename);
     return EXIT_FAILURE;
   }

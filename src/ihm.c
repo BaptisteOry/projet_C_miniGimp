@@ -6,7 +6,16 @@
 #include "lut.h"
 #include "ihm.h"
 
-int storeArguments(int nbArgs, char **tabArgs, char *imageToEdit, char *imageOutput, LutsToApply *lutsChoosed, int *histogram){
+int lutAlreadyChoosed(LutsToApply *lutsChoosed, char *lutChoosed){
+    for (int i = 0; i < lutsChoosed->nbLuts; i++){
+        if (!(strcmp(lutsChoosed->luts[i], lutChoosed))){
+            return 1;
+        }   
+    }
+    return 0;
+}
+
+int storeArguments(int nbArgs, char **tabArgs, char *imageToEdit, char *imageOutput, LutsToApply *lutsChoosed, int *histogram, int *history){
 	lutsChoosed->nbLuts=0;
 	for (int i = 0; i < nbArgs; i++){
 		if (strstr(tabArgs[i], ".ppm") && !(strstr(tabArgs[i-1], "-o"))){
@@ -17,11 +26,15 @@ int storeArguments(int nbArgs, char **tabArgs, char *imageToEdit, char *imageOut
             strcpy(imageOutput, tabArgs[i+1]);
     	}
     	
-    	if (!(strcmp(tabArgs[i], "-h")) || !(strcmp(tabArgs[i], "-histo"))){
+    	if (!(strcmp(tabArgs[i], "-h"))){
     		*histogram=1;
     	}
 
-    	if ((convertStringToLut(tabArgs[i])) != -1){
+        if (!(strcmp(tabArgs[i], "-histo"))){
+            *history=1;
+        }
+
+    	if (((convertStringToLut(tabArgs[i])) != -1) && !(lutAlreadyChoosed(lutsChoosed, tabArgs[i]))){
     		lutsChoosed->luts[lutsChoosed->nbLuts]=tabArgs[i];
     		lutsChoosed->params[lutsChoosed->nbLuts] = atoi(tabArgs[i+1]);
     		lutsChoosed->nbLuts++;
