@@ -36,7 +36,13 @@ int storeArguments(int nbArgs, char **tabArgs, char *imageToEdit, char *imageOut
 
     	if (((convertStringToLut(tabArgs[i])) != -1) && !(lutAlreadyChoosed(lutsChoosed, tabArgs[i]))){
     		lutsChoosed->luts[lutsChoosed->nbLuts]=tabArgs[i];
-    		lutsChoosed->params[lutsChoosed->nbLuts] = atoi(tabArgs[i+1]);
+    		if (tabArgs[i+1]){
+                if (sscanf(tabArgs[i+1], "%d", &(lutsChoosed->params[lutsChoosed->nbLuts])) != 1) {
+                    lutsChoosed->params[lutsChoosed->nbLuts]=0;
+                }
+            }else{
+                lutsChoosed->params[lutsChoosed->nbLuts]=0;
+            }
     		lutsChoosed->nbLuts++;
     	}
     }

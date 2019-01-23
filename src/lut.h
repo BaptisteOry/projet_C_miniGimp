@@ -21,9 +21,4 @@ lut convertStringToLut(char *str);
 void updateLutTab(int *lutTab);
 void applyLut(Image *image, LutsToApply *lutsChoosed, char (*modifications)[255], int *nbModifications);
 
-/*
-void addconSimple(int param, int *lutTab);
-void dimconSimple(int param, int *lutTab);
-*/
-
 #endif

@@ -82,6 +82,7 @@ void applyLut(Image *image, LutsToApply *lutsChoosed, char (*modifications)[255]
     }
     
     for (int i = 0; i<lutsChoosed->nbLuts; i++){
+        int behaviorLut=0;
         switch (convertStringToLut(lutsChoosed->luts[i])){
             case ADDLUM:
             addlum(lutsChoosed->params[i], lutTab);
@@ -96,6 +97,7 @@ void applyLut(Image *image, LutsToApply *lutsChoosed, char (*modifications)[255]
             dimcon(lutsChoosed->params[i], lutTab);
             break;
             case INVERT:
+            behaviorLut = 1;
             invert(lutTab);
             break;
             case SEPIA:
@@ -105,7 +107,11 @@ void applyLut(Image *image, LutsToApply *lutsChoosed, char (*modifications)[255]
             break;
         }
         char modificationText[255];
-        sprintf(modificationText, "Ajout de %s paramètre %d\n", lutsChoosed->luts[i], lutsChoosed->params[i]);
+        if(behaviorLut==0){
+            sprintf(modificationText, "Ajout de %s paramètre %d\n", lutsChoosed->luts[i], lutsChoosed->params[i]);
+        }else{
+            sprintf(modificationText, "Ajout de %s\n", lutsChoosed->luts[i]);
+        }  
         printf("%s", modificationText);
         strcpy(modifications[*nbModifications], modificationText);
         (*nbModifications)++;
@@ -117,33 +123,3 @@ void applyLut(Image *image, LutsToApply *lutsChoosed, char (*modifications)[255]
         image->data[i]=lutTab[image->data[i]];
     }
 }
-
-/*
-void addconSimple(int param, int *lutTab) {
-    for (int i = 0; i <= 255; i++){
-        if(lutTab[i]>=128){
-            lutTab[i]=lutTab[i]+param;
-        }else{
-            lutTab[i]=lutTab[i]-param;
-        }
-    }
-}
-
-void dimconSimple(int param, int *lutTab) {
-    for (int i = 0; i <= 255; i++){
-        if(lutTab[i]>=128){
-            if(lutTab[i]-param>=128){
-                lutTab[i]=lutTab[i]-param;
-            }else{
-                lutTab[i]=128;
-            }
-        }else{
-            if(lutTab[i]+param<128){
-                lutTab[i]=lutTab[i]+param;
-            }else{
-                lutTab[i]=128;
-            }
-        }
-    }
-}
-*/

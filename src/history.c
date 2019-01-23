@@ -5,6 +5,12 @@
 
 #include "history.h"
 
+void nameHistory(char *historyName, char *nameImage){
+    strncpy(historyName, nameImage, strlen(nameImage)-4);
+    historyName[strlen(nameImage)-4] = '\0';
+    strcat(historyName, "_history.txt");
+}
+
 int saveHistory(char (*modifications)[255], int *nbModifications, char *filenameInput, char *filenameOutput){
 
     char chaine[255];

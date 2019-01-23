@@ -1,9 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "mathf.h"
 #include "image.h"
 #include "histogram.h"
+
+void nameHistogram(char *histogramImageName, char *nameImage){
+    strncpy(histogramImageName, nameImage, strlen(nameImage)-4);
+    histogramImageName[strlen(nameImage)-4] = '\0';
+    strcat(histogramImageName, "_histogram.ppm");
+}
 
 void buildHistogram(Image *image, int *histogramTab, colour colourChoosed) {
     for(int i=0; i<256; i++) {

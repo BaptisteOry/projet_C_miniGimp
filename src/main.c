@@ -39,9 +39,8 @@ int main(int argc, char *argv[]){
         Image histogramImageInput;
         buildHistogramImage(&histogramImageInput, histogramInputTab);
 
-        char histogramImageInputName[255]="";
-        strncpy(histogramImageInputName, imageToEdit, strlen(imageToEdit)-4);
-        strcat(histogramImageInputName, "_histogram.ppm");
+        char histogramImageInputName[255];
+        nameHistogram(histogramImageInputName, imageToEdit);
 
         if(saveImagePPM(&histogramImageInput, histogramImageInputName)){
             return EXIT_FAILURE;
@@ -67,9 +66,8 @@ int main(int argc, char *argv[]){
         Image histogramImageOutput;
         buildHistogramImage(&histogramImageOutput, histogramOutputTab);
 
-        char histogramImageOutputName[255]="";
-        strncpy(histogramImageOutputName, imageOutput, strlen(imageOutput)-4);
-        strcat(histogramImageOutputName, "_histogram.ppm");
+        char histogramImageOutputName[255];
+        nameHistogram(histogramImageOutputName, imageOutput);
 
         if(saveImagePPM(&histogramImageOutput, histogramImageOutputName) != EXIT_SUCCESS){
             return EXIT_FAILURE;
@@ -80,17 +78,14 @@ int main(int argc, char *argv[]){
     }
 
     if(history){
-        char historyInputName[255]="";
-        strncpy(historyInputName, imageToEdit, strlen(imageToEdit)-4);
-        strcat(historyInputName, "_history.txt");
-
-        char historyOutputName[255]="";
-        strncpy(historyOutputName, imageOutput, strlen(imageOutput)-4);
-        strcat(historyOutputName, "_history.txt");
+        char historyInputName[255], historyOutputName[255];
+        nameHistory(historyInputName, imageToEdit);
+        nameHistory(historyOutputName, imageOutput);
 
         if(saveHistory(modifications, &nbModifications, historyInputName, historyOutputName) != EXIT_SUCCESS){
             return EXIT_FAILURE;
         }
+        printf("Historique de l'image éditée enregistré ici : %s\n", historyOutputName);
     }
 
     // free the image memory
