@@ -1,7 +1,7 @@
 CC     = gcc
 CFLAGS = -Wall -O2 -Wno-unused-result -g
 LIB    = -lm
-OBJ    = src/main.o src/mathf.o src/image.o src/lut.o src/ihm.o src/histogram.o src/history.o
+OBJ    = src/main.o src/mathf.o src/image.o src/lut.o src/change.o src/ihm.o src/histogram.o src/history.o
 RM     = rm -f
 BIN    = bin/minigimp
 DIRNAME = $(shell basename $$PWD)
@@ -14,7 +14,7 @@ all : $(OBJ)
 	@echo "            to execute type: $(BIN) &"
 	@echo "--------------------------------------------------------------"
 
-main.o : main.c image.c image.h lut.c lut.h ihm.c ihm.h histogram.o histogram.h history.o history.h
+main.o : main.c image.c image.h lut.c lut.h change.c change.h ihm.c ihm.h histogram.o histogram.h history.o history.h
 	@echo "compile main"
 	$(CC) $(CFLAGS) -c $<  
 	@echo "done..."
@@ -29,12 +29,17 @@ mathf.o : mathf.c mathf.h
 	$(CC) $(CFLAGS) -c $<  
 	@echo "done..."
 
-lut.o : mathf.c mathf.h image.c image.h lut.c lut.h
+lut.o : image.c image.h lut.c lut.h
 	@echo "compile lut"
 	$(CC) $(CFLAGS) -c $<  
 	@echo "done..."
 
-ihm.o : image.c image.h lut.c lut.h ihm.c ihm.h
+change.o : mathf.c mathf.h image.c image.h change.c change.h
+	@echo "compile lut"
+	$(CC) $(CFLAGS) -c $<  
+	@echo "done..."
+
+ihm.o : image.c image.h lut.c lut.h change.c change.h ihm.c ihm.h
 	@echo "compile ihm"
 	$(CC) $(CFLAGS) -c $<  
 	@echo "done..."

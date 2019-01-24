@@ -4,6 +4,7 @@
 
 #include "image.h"
 #include "lut.h"
+#include "change.h"
 #include "ihm.h"
 #include "histogram.h"
 #include "history.h"
@@ -13,13 +14,14 @@ int main(int argc, char *argv[]){
     char imageToEdit[255]="images/default_input.ppm";
     char imageOutput[255]="images/default_output.ppm";
     LutsToApply lutsChoosed;
+    ChangesToApply changesChoosed;
 
     int histogram=0;
     int history=0;
     char modifications[255][255];
     int nbModifications=0;
 
-    if(storeArguments(argc, argv, imageToEdit, imageOutput, &lutsChoosed, &histogram, &history) != EXIT_SUCCESS){
+    if(storeArguments(argc, argv, imageToEdit, imageOutput, &lutsChoosed, &changesChoosed, &histogram, &history) != EXIT_SUCCESS){
         return EXIT_FAILURE;
     }
 
@@ -50,8 +52,14 @@ int main(int argc, char *argv[]){
         freeImage(&histogramImageInput);
     }
 
-    applyLut(&image, &lutsChoosed, modifications, &nbModifications);
+    if(lutsChoosed.nbLuts != 0){
+        applyLuts(&image, &lutsChoosed, modifications, &nbModifications);
+    }
 
+    if(changesChoosed.nbChanges != 0){
+        applyChanges(&image, &changesChoosed, modifications, &nbModifications);
+    }
+    
     // save the image (if the directory "images" already exists)
     if(saveImagePPM(&image, imageOutput) != EXIT_SUCCESS){
         return EXIT_FAILURE;
