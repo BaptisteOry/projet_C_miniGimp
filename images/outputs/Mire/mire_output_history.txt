@@ -1,0 +1,4 @@
+Add DIMLUM, parameter 10
+Add ADDCON, parameter 25
+Add BUMP
+Add LOWPASS
