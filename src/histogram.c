@@ -12,17 +12,22 @@ void nameHistogram(char *histogramImageName, char *nameImage){
     strcat(histogramImageName, "_histogram.ppm");
 }
 
-void buildHistogram(Image *image, int *histogramTab, colour colourChoosed) {
+void buildHistogram(Image *image, int *histogramTab, colour colourChosen) {
+    // initializes the histogram table
     for(int i=0; i<256; i++) {
         histogramTab[i]=0;
     }
-    if(colourChoosed==all) {
+
+    // create the histogram for the 3 colors (gray level)
+    if(colourChosen==all) {
         for(int i=0; i<(image->width)*(image->height)*3; i++) {
             int value = image->data[i];
             histogramTab[value]=histogramTab[value]+1;
         }
+
+    // create the histogram for one color (red, green or blue)
     }else {
-        for(int i=colourChoosed; i<(image->width)*(image->height)*3; i=i+3) {
+        for(int i=colourChosen; i<(image->width)*(image->height)*3; i=i+3) {
             int value = image->data[i];
             histogramTab[value]=histogramTab[value]+1;
         }
@@ -30,15 +35,21 @@ void buildHistogram(Image *image, int *histogramTab, colour colourChoosed) {
 }
 
 int buildHistogramImage(Image *histogramImage, int *histogramTab) {
+    // initialize the height and width of the histogram image
     int widthHistogramImage=256*2, heightHistogramImage=200;
+    
+    // make the histogram table proportional to the height of the histogram image
     int max = maxInArray(histogramTab, 256);
     for(int i=0; i<256; i++) {
         histogramTab[i]=histogramTab[i]*heightHistogramImage/max;
     }
+
+    // create the histogram image
     if(newImage(histogramImage, widthHistogramImage, heightHistogramImage)){
-        printf("newImage for histogram : memory allocation error\n");
         return EXIT_FAILURE;
     }
+
+    // fill in the histogram image according to the histogram table
     for(int i=0; i<heightHistogramImage*widthHistogramImage*3; i=i+3*(widthHistogramImage/256)) {
         if(histogramTab[(i/((widthHistogramImage/256)*3))%256]>=(heightHistogramImage)-(i/((widthHistogramImage)*3))) {
             for(int j=0; j<3*((widthHistogramImage)/256); j++) {
@@ -50,5 +61,6 @@ int buildHistogramImage(Image *histogramImage, int *histogramTab) {
             }
         }
     }
+
     return EXIT_SUCCESS;
 }

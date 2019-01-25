@@ -6,27 +6,29 @@
 #include "image.h"
 #include "lut.h"
 
-void applyLuts(Image *image, LutsToApply *lutsChoosed, char (*modifications)[255], int *nbModifications){
-    // initialise tab lut
+void applyLuts(Image *image, LutsToApply *lutsChosen, char (*modifications)[255], int *nbModifications){
+    // initialise the lut table
     int lutTab[256];
     for (int i = 0; i <= 255; i++){
         lutTab[i]=i;
     }
     
-    for (int i = 0; i<lutsChoosed->nbLuts; i++){
+    for (int i = 0; i<lutsChosen->nbLuts; i++){
         int behaviorLut=0;
-        switch (convertStringToLut(lutsChoosed->luts[i])){
+
+        // apply the effect on the lut table for the desired lut
+        switch (convertStringToLut(lutsChosen->luts[i])){
             case ADDLUM:
-            addlum(lutsChoosed->params[i], lutTab);
+            addlum(lutsChosen->params[i], lutTab);
             break;
             case DIMLUM:
-            dimlum(lutsChoosed->params[i], lutTab);
+            dimlum(lutsChosen->params[i], lutTab);
             break;
             case ADDCON:
-            addcon(lutsChoosed->params[i], lutTab);
+            addcon(lutsChosen->params[i], lutTab);
             break;
             case DIMCON:
-            dimcon(lutsChoosed->params[i], lutTab);
+            dimcon(lutsChosen->params[i], lutTab);
             break;
             case INVERT:
             behaviorLut = 1;
@@ -35,18 +37,20 @@ void applyLuts(Image *image, LutsToApply *lutsChoosed, char (*modifications)[255
             default: ;
             break;
         }
+
+        // display and store the lut change
         char modificationText[255];
         if(behaviorLut==0){
-            sprintf(modificationText, "Ajout de %s paramètre %d\n", lutsChoosed->luts[i], lutsChoosed->params[i]);
+            sprintf(modificationText, "Add %s, parameter %d\n", lutsChosen->luts[i], lutsChosen->params[i]);
         }else{
-            sprintf(modificationText, "Ajout de %s\n", lutsChoosed->luts[i]);
+            sprintf(modificationText, "Add %s\n", lutsChosen->luts[i]);
         }  
         printf("%s", modificationText);
         strcpy(modifications[*nbModifications], modificationText);
         (*nbModifications)++;
     }
 
-    // apply tab lut
+    // apply the lut table on the image (with corrections)
     updateLutTab(lutTab);
     for(int i = 0; i < (image->width)*(image->height)*3; i++) {
         image->data[i]=lutTab[image->data[i]];

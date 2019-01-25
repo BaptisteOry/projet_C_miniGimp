@@ -8,7 +8,7 @@ int newImage(Image *image, unsigned int width, unsigned int height)
   // memory allocation
   image->data = (unsigned char*) malloc(sizeof(unsigned char) * width*height*3);
   if(image->data == NULL){
-    printf("newImage : error bad memory allocation.\n");
+    printf("newImage: error bad memory allocation.\n");
     return EXIT_FAILURE;
   }
 
@@ -34,7 +34,7 @@ void freeImage(Image *image)
 
 int saveImagePPM(Image *image, char *filename)
 {
-  // open the file that must exist for writing (wt)
+  // open the file for writing (wt)
   FILE *myfile;
   myfile = fopen(filename,"wt");
 
@@ -42,8 +42,8 @@ int saveImagePPM(Image *image, char *filename)
   if (myfile)
   {
     // generate the header
-    char header[100]; // bad way to proceed, but still ok ...
-    sprintf(header,"P6\n#M. Nozick is a so nice person\n%d %d\n255\n",image->width,image->height);
+    char header[100];
+    sprintf(header,"P6\n%d %d\n255\n",image->width,image->height);
     fprintf(myfile,"%s",header);
 
     // write the data
@@ -52,7 +52,7 @@ int saveImagePPM(Image *image, char *filename)
     // close the file
     fclose(myfile);
   }else{
-    printf("saveImagePPM : error opening file %s.\n",filename);
+    printf("saveImagePPM: error opening file %s.\n",filename);
     return EXIT_FAILURE;
   }
 
@@ -65,9 +65,9 @@ int loadImagePPM(Image *image, char *filename){
   char chaine[255];
   unsigned int width,height;
 
-  // open the file that must exist for reading (rt)
+  // open the file for reading (rt)
   if (!(myFile = fopen(filename, "rt"))){ 
-    printf("loadImagePPM : error opening file %s.\n",filename);
+    printf("loadImagePPM: error opening file %s.\n",filename);
     return EXIT_FAILURE;
   }
 
@@ -87,7 +87,7 @@ int loadImagePPM(Image *image, char *filename){
 
   // memory allocation
   if(newImage(image,width,height) == EXIT_FAILURE){
-    printf("newImage : memory allocation error\n");
+    printf("newImage: memory allocation error\n");
     return EXIT_FAILURE;
   }
 

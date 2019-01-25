@@ -1,4 +1,4 @@
-Voici le code PPM (simplifié) de image_simple :
+/* simple.ppm */
 
 P6/n
 3 3/n

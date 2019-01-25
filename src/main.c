@@ -11,29 +11,30 @@
 
 int main(int argc, char *argv[]){
 
+    // initialization of the options chosen by the user
     char imageToEdit[255]="images/default_input.ppm";
     char imageOutput[255]="images/default_output.ppm";
-    LutsToApply lutsChoosed;
-    ChangesToApply changesChoosed;
-
+    LutsToApply lutsChosen;
+    ChangesToApply changesChosen;
     int histogram=0;
     int history=0;
     char modifications[255][255];
     int nbModifications=0;
 
-    if(storeArguments(argc, argv, imageToEdit, imageOutput, &lutsChoosed, &changesChoosed, &histogram, &history) != EXIT_SUCCESS){
+    // storage of options chosen by the user
+    if(storeArguments(argc, argv, imageToEdit, imageOutput, &lutsChosen, &changesChosen, &histogram, &history) != EXIT_SUCCESS){
         return EXIT_FAILURE;
     }
 
     // create an image
     Image image;
 
-    // load a ppm file
+    // load a ppm file chosen by the user
     if(loadImagePPM(&image,imageToEdit) != EXIT_SUCCESS){
         return EXIT_FAILURE;
     }
 
-    // histogram input
+    // create the histogram input
     if(histogram){
         int histogramInputTab[256];
 
@@ -47,26 +48,28 @@ int main(int argc, char *argv[]){
         if(saveImagePPM(&histogramImageInput, histogramImageInputName)){
             return EXIT_FAILURE;
         }
-        printf("Histogramme de l'image de départ enregistré ici : %s\n", histogramImageInputName);
+        printf("Histogram of the input image saved here: %s\n", histogramImageInputName);
 
         freeImage(&histogramImageInput);
     }
 
-    if(lutsChoosed.nbLuts != 0){
-        applyLuts(&image, &lutsChoosed, modifications, &nbModifications);
+    // application of the luts (effects) chosen by the user
+    if(lutsChosen.nbLuts != 0){
+        applyLuts(&image, &lutsChosen, modifications, &nbModifications);
     }
 
-    if(changesChoosed.nbChanges != 0){
-        applyChanges(&image, &changesChoosed, modifications, &nbModifications);
+    // // application of the changes (effects) chosen by the user
+    if(changesChosen.nbChanges != 0){
+        applyChanges(&image, &changesChosen, modifications, &nbModifications);
     }
     
     // save the image (if the directory "images" already exists)
     if(saveImagePPM(&image, imageOutput) != EXIT_SUCCESS){
         return EXIT_FAILURE;
     }
-    printf("Image éditée enregistrée ici : %s\n", imageOutput);
+    printf("Output image saved here: %s\n", imageOutput);
 
-    // histogram output
+    // create the histogram ouput
     if(histogram){
         int histogramOutputTab[256];
 
@@ -80,11 +83,12 @@ int main(int argc, char *argv[]){
         if(saveImagePPM(&histogramImageOutput, histogramImageOutputName) != EXIT_SUCCESS){
             return EXIT_FAILURE;
         }
-        printf("Histogramme de l'image éditée enregistré ici : %s\n", histogramImageOutputName);
+        printf("Histogram of the output image saved here: %s\n", histogramImageOutputName);
 
         freeImage(&histogramImageOutput);
     }
 
+    // create the history
     if(history){
         char historyInputName[255], historyOutputName[255];
         nameHistory(historyInputName, imageToEdit);
@@ -93,7 +97,7 @@ int main(int argc, char *argv[]){
         if(saveHistory(modifications, &nbModifications, historyInputName, historyOutputName) != EXIT_SUCCESS){
             return EXIT_FAILURE;
         }
-        printf("Historique de l'image éditée enregistré ici : %s\n", historyOutputName);
+        printf("History of the output image saved here: %s\n", historyOutputName);
     }
 
     // free the image memory
