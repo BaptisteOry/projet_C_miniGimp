@@ -7,14 +7,14 @@
 #include "image.h"
 #include "change.h"
 
-void applyChanges(Image *image, ChangesToApply *changesChosen, char (*modifications)[255], int *nbModifications){
-    for (int i = 0; i<changesChosen->nbChanges; i++){
+void applyChanges(Image *image, ChangesToApply *chosenChanges, char (*modifications)[255], int *nbModifications){
+    for (int i = 0; i<chosenChanges->nbChanges; i++){
         int behaviorChange=0;
         
         // apply the effect on the image for the desired change
-        switch (convertStringToChange(changesChosen->changes[i])){
+        switch (convertStringToChange(chosenChanges->changes[i])){
             case SEPIA:
-            sepia(changesChosen->params[i], image);
+            sepia(chosenChanges->params[i], image);
             break;
             case BLACKANDWHITE:
             behaviorChange = 1;
@@ -57,9 +57,9 @@ void applyChanges(Image *image, ChangesToApply *changesChosen, char (*modificati
         // display and store the change
         char modificationText[255];
         if(behaviorChange==0){
-            sprintf(modificationText, "Add %s, parameter %d\n", changesChosen->changes[i], changesChosen->params[i]);
+            sprintf(modificationText, "Add %s, parameter %d\n", chosenChanges->changes[i], chosenChanges->params[i]);
         }else{
-            sprintf(modificationText, "Add %s\n", changesChosen->changes[i]);
+            sprintf(modificationText, "Add %s\n", chosenChanges->changes[i]);
         }  
         printf("%s", modificationText);
         strcpy(modifications[*nbModifications], modificationText);
@@ -100,7 +100,7 @@ void sepia(int param, Image *image) {
 }
 
 void convolutionMatrix(int (*matrix)[3], Image *image) {
-    // create another image to store the changed values
+    // create another image to store the changed image
     Image imageWithEffect;
     newImage(&imageWithEffect, image->width, image->height);
 

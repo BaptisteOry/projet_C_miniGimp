@@ -12,7 +12,7 @@ int newImage(Image *image, unsigned int width, unsigned int height)
     return EXIT_FAILURE;
   }
 
-  // update widt and height
+  // update width and height
   image->width  = width;
   image->height = height;
 

@@ -6,29 +6,29 @@
 #include "image.h"
 #include "lut.h"
 
-void applyLuts(Image *image, LutsToApply *lutsChosen, char (*modifications)[255], int *nbModifications){
-    // initialise the lut table
+void applyLuts(Image *image, LutsToApply *chosenLuts, char (*modifications)[255], int *nbModifications){
+    // initialize the lut table
     int lutTab[256];
     for (int i = 0; i <= 255; i++){
         lutTab[i]=i;
     }
     
-    for (int i = 0; i<lutsChosen->nbLuts; i++){
+    for (int i = 0; i<chosenLuts->nbLuts; i++){
         int behaviorLut=0;
 
         // apply the effect on the lut table for the desired lut
-        switch (convertStringToLut(lutsChosen->luts[i])){
+        switch (convertStringToLut(chosenLuts->luts[i])){
             case ADDLUM:
-            addlum(lutsChosen->params[i], lutTab);
+            addlum(chosenLuts->params[i], lutTab);
             break;
             case DIMLUM:
-            dimlum(lutsChosen->params[i], lutTab);
+            dimlum(chosenLuts->params[i], lutTab);
             break;
             case ADDCON:
-            addcon(lutsChosen->params[i], lutTab);
+            addcon(chosenLuts->params[i], lutTab);
             break;
             case DIMCON:
-            dimcon(lutsChosen->params[i], lutTab);
+            dimcon(chosenLuts->params[i], lutTab);
             break;
             case INVERT:
             behaviorLut = 1;
@@ -38,12 +38,12 @@ void applyLuts(Image *image, LutsToApply *lutsChosen, char (*modifications)[255]
             break;
         }
 
-        // display and store the lut change
+        // display and store the lut changes
         char modificationText[255];
         if(behaviorLut==0){
-            sprintf(modificationText, "Add %s, parameter %d\n", lutsChosen->luts[i], lutsChosen->params[i]);
+            sprintf(modificationText, "Add %s, parameter %d\n", chosenLuts->luts[i], chosenLuts->params[i]);
         }else{
-            sprintf(modificationText, "Add %s\n", lutsChosen->luts[i]);
+            sprintf(modificationText, "Add %s\n", chosenLuts->luts[i]);
         }  
         printf("%s", modificationText);
         strcpy(modifications[*nbModifications], modificationText);

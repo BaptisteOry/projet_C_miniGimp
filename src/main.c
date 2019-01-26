@@ -14,15 +14,15 @@ int main(int argc, char *argv[]){
     // initialization of the options chosen by the user
     char imageToEdit[255]="images/default_input.ppm";
     char imageOutput[255]="images/default_output.ppm";
-    LutsToApply lutsChosen;
-    ChangesToApply changesChosen;
+    LutsToApply chosenLuts;
+    ChangesToApply chosenChanges;
     int histogram=0;
     int history=0;
     char modifications[255][255];
     int nbModifications=0;
 
     // storage of options chosen by the user
-    if(storeArguments(argc, argv, imageToEdit, imageOutput, &lutsChosen, &changesChosen, &histogram, &history) != EXIT_SUCCESS){
+    if(storeArguments(argc, argv, imageToEdit, imageOutput, &chosenLuts, &chosenChanges, &histogram, &history) != EXIT_SUCCESS){
         return EXIT_FAILURE;
     }
 
@@ -54,13 +54,13 @@ int main(int argc, char *argv[]){
     }
 
     // application of the luts (effects) chosen by the user
-    if(lutsChosen.nbLuts != 0){
-        applyLuts(&image, &lutsChosen, modifications, &nbModifications);
+    if(chosenLuts.nbLuts != 0){
+        applyLuts(&image, &chosenLuts, modifications, &nbModifications);
     }
 
     // // application of the changes (effects) chosen by the user
-    if(changesChosen.nbChanges != 0){
-        applyChanges(&image, &changesChosen, modifications, &nbModifications);
+    if(chosenChanges.nbChanges != 0){
+        applyChanges(&image, &chosenChanges, modifications, &nbModifications);
     }
     
     // save the image (if the directory "images" already exists)

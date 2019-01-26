@@ -15,10 +15,10 @@ typedef struct LutsToApply{
 
 /// \brief application of selected luts on the lut table, then the image
 /// \param image: pointer on the image
-/// \param lutsChosen: pointer on the structure of the luts to be applied
+/// \param chosenLuts: pointer on the structure of the luts to be applied
 /// \param modifications: string table of modifications
 /// \param nbModifications: pointer on the number of modifications
-void applyLuts(Image *image, LutsToApply *lutsChosen, char (*modifications)[255], int *nbModifications);
+void applyLuts(Image *image, LutsToApply *chosenLuts, char (*modifications)[255], int *nbModifications);
 
 /// \brief conversion of the string to a lut (enumeration)
 /// \param str: pointer on the string

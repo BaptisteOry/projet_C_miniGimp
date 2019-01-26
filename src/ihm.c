@@ -7,18 +7,18 @@
 #include "change.h"
 #include "ihm.h"
 
-int effectAlreadyChosen(char **effects, int nbEffects, char *effectChosen){
+int effectAlreadyChosen(char **effects, int nbEffects, char *chosenEffect){
     for (int i = 0; i<nbEffects; i++){
-        if (!(strcmp(effects[i], effectChosen))){
+        if (!(strcmp(effects[i], chosenEffect))){
             return 1;
         }   
     }
     return 0;
 }
 
-int storeArguments(int nbArgs, char **tabArgs, char *imageToEdit, char *imageOutput, LutsToApply *lutsChosen, ChangesToApply *changesChosen, int *histogram, int *history){
+int storeArguments(int nbArgs, char **tabArgs, char *imageToEdit, char *imageOutput, LutsToApply *lutsChosen, ChangesToApply *chosenChanges, int *histogram, int *history){
 	lutsChosen->nbLuts=0;
-    changesChosen->nbChanges=0;
+    chosenChanges->nbChanges=0;
 
     for (int i = 0; i < nbArgs; i++){
 		// storage of the image to edit
@@ -41,7 +41,7 @@ int storeArguments(int nbArgs, char **tabArgs, char *imageToEdit, char *imageOut
             *history=1;
         }
 
-        // storage of selected luts (effects) and their parameters
+        // storage of the selected luts (effects) and their parameters
     	if (((convertStringToLut(tabArgs[i])) != -1) && !(effectAlreadyChosen(lutsChosen->luts, lutsChosen->nbLuts, tabArgs[i]))){
     		lutsChosen->luts[lutsChosen->nbLuts]=tabArgs[i];
     		if (tabArgs[i+1]){
@@ -54,17 +54,17 @@ int storeArguments(int nbArgs, char **tabArgs, char *imageToEdit, char *imageOut
     		lutsChosen->nbLuts++;
     	}
 
-        // storage of selected changes (effects) and their parameters
-        if (((convertStringToChange(tabArgs[i])) != -1) && !(effectAlreadyChosen(changesChosen->changes, changesChosen->nbChanges, tabArgs[i]))){
-            changesChosen->changes[changesChosen->nbChanges]=tabArgs[i];
+        // storage of the selected changes (effects) and their parameters
+        if (((convertStringToChange(tabArgs[i])) != -1) && !(effectAlreadyChosen(chosenChanges->changes, chosenChanges->nbChanges, tabArgs[i]))){
+            chosenChanges->changes[chosenChanges->nbChanges]=tabArgs[i];
             if (tabArgs[i+1]){
-                if (sscanf(tabArgs[i+1], "%d", &(changesChosen->params[changesChosen->nbChanges])) != 1) {
-                    changesChosen->params[changesChosen->nbChanges]=0;
+                if (sscanf(tabArgs[i+1], "%d", &(chosenChanges->params[chosenChanges->nbChanges])) != 1) {
+                    chosenChanges->params[chosenChanges->nbChanges]=0;
                 }
             }else{
-                changesChosen->params[changesChosen->nbChanges]=0;
+                chosenChanges->params[chosenChanges->nbChanges]=0;
             }
-            changesChosen->nbChanges++;
+            chosenChanges->nbChanges++;
         }
     }
 

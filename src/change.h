@@ -15,10 +15,10 @@ typedef struct ChangesToApply{
 
 /// \brief application of selected changes on the image
 /// \param image: pointer on the image
-/// \param changesChosen: pointer on the structure of the changes to be applied
+/// \param chosenChanges: pointer on the structure of the changes to be applied
 /// \param modifications: string table of modifications
 /// \param nbModifications: pointer on the number of modifications
-void applyChanges(Image *image, ChangesToApply *changesChosen, char (*modifications)[255], int *nbModifications);
+void applyChanges(Image *image, ChangesToApply *chosenChanges, char (*modifications)[255], int *nbModifications);
 
 /// \brief conversion of the string to a change (enumeration)
 /// \param str: pointer on the string

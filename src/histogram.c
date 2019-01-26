@@ -12,14 +12,14 @@ void nameHistogram(char *histogramImageName, char *nameImage){
     strcat(histogramImageName, "_histogram.ppm");
 }
 
-void buildHistogram(Image *image, int *histogramTab, colour colourChosen) {
-    // initializes the histogram table
+void buildHistogram(Image *image, int *histogramTab, colour chosenColour) {
+    // initialize the histogram table
     for(int i=0; i<256; i++) {
         histogramTab[i]=0;
     }
 
     // create the histogram for the 3 colors (gray level)
-    if(colourChosen==all) {
+    if(chosenColour==all) {
         for(int i=0; i<(image->width)*(image->height)*3; i++) {
             int value = image->data[i];
             histogramTab[value]=histogramTab[value]+1;
@@ -27,7 +27,7 @@ void buildHistogram(Image *image, int *histogramTab, colour colourChosen) {
 
     // create the histogram for one color (red, green or blue)
     }else {
-        for(int i=colourChosen; i<(image->width)*(image->height)*3; i=i+3) {
+        for(int i=chosenColour; i<(image->width)*(image->height)*3; i=i+3) {
             int value = image->data[i];
             histogramTab[value]=histogramTab[value]+1;
         }
