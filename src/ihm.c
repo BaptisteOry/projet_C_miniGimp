@@ -16,8 +16,8 @@ int effectAlreadyChosen(char **effects, int nbEffects, char *chosenEffect){
     return 0;
 }
 
-int storeArguments(int nbArgs, char **tabArgs, char *imageToEdit, char *imageOutput, LutsToApply *lutsChosen, ChangesToApply *chosenChanges, int *histogram, int *history){
-	lutsChosen->nbLuts=0;
+int storeArguments(int nbArgs, char **tabArgs, char *imageToEdit, char *imageOutput, LutsToApply *chosenLuts, ChangesToApply *chosenChanges, int *histogram, int *history){
+	chosenLuts->nbLuts=0;
     chosenChanges->nbChanges=0;
 
     for (int i = 0; i < nbArgs; i++){
@@ -42,16 +42,16 @@ int storeArguments(int nbArgs, char **tabArgs, char *imageToEdit, char *imageOut
         }
 
         // storage of the selected luts (effects) and their parameters
-    	if (((convertStringToLut(tabArgs[i])) != -1) && !(effectAlreadyChosen(lutsChosen->luts, lutsChosen->nbLuts, tabArgs[i]))){
-    		lutsChosen->luts[lutsChosen->nbLuts]=tabArgs[i];
+    	if (((convertStringToLut(tabArgs[i])) != -1) && !(effectAlreadyChosen(chosenLuts->luts, chosenLuts->nbLuts, tabArgs[i]))){
+    		chosenLuts->luts[chosenLuts->nbLuts]=tabArgs[i];
     		if (tabArgs[i+1]){
-                if (sscanf(tabArgs[i+1], "%d", &(lutsChosen->params[lutsChosen->nbLuts])) != 1) {
-                    lutsChosen->params[lutsChosen->nbLuts]=0;
+                if (sscanf(tabArgs[i+1], "%d", &(chosenLuts->params[chosenLuts->nbLuts])) != 1) {
+                    chosenLuts->params[chosenLuts->nbLuts]=0;
                 }
             }else{
-                lutsChosen->params[lutsChosen->nbLuts]=0;
+                chosenLuts->params[chosenLuts->nbLuts]=0;
             }
-    		lutsChosen->nbLuts++;
+    		chosenLuts->nbLuts++;
     	}
 
         // storage of the selected changes (effects) and their parameters

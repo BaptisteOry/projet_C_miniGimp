@@ -13,11 +13,11 @@ int effectAlreadyChosen(char **effects, int nbEffects, char *chosenEffect);
 /// \param tabArgs: string table of arguments in the command line
 /// \param imageToEdit: name of the image to edit
 /// \param imageOutput: name of the output image
-/// \param lutsChosen: pointer on the structure of the luts to be applied
+/// \param chosenLuts: pointer on the structure of the luts to be applied
 /// \param chosenChanges: pointer on the structure of the changes to be applied
 /// \param histogram: presence of histograms
 /// \param history: presence of the history
 /// \return EXIT_FAILURE in case of problem, else EXIT_SUCCESS
-int storeArguments(int nbArgs, char **tabArgs, char *imageToEdit, char *imageOutput, LutsToApply *lutsChosen, ChangesToApply *chosenChanges, int *histogram, int *history);
+int storeArguments(int nbArgs, char **tabArgs, char *imageToEdit, char *imageOutput, LutsToApply *chosenLuts, ChangesToApply *chosenChanges, int *histogram, int *history);
 
 #endif
