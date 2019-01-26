@@ -38,3 +38,5 @@ LOWPASS / lowpass / NO
 EXAMPLES OF TESTED COMMAND LINES :
 
 bin/minigimp images/squirrel.ppm -histo ADDLUM 50 INVERT -o images/squirrel_output.ppm
+bin/minigimp images/squirrel.ppm -h -histo BLUR -o images/squirrel_output.ppm
+bin/minigimp images/squirrel.ppm SEPIA 20

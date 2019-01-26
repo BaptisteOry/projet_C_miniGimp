@@ -1,0 +1,4 @@
+Add ADDLUM, parameter 50
+Add DIMCON, parameter 50
+Add INVERT
+Add SEPIA, parameter 50

@@ -3,6 +3,7 @@
 #include <math.h>
 #include <string.h>
 
+#include "mathf.h"
 #include "image.h"
 #include "lut.h"
 
@@ -68,11 +69,7 @@ lut convertStringToLut(char *str){
 
 void updateLutTab(int *lutTab){
     for (int i = 0; i <= 255; i++){
-        if(lutTab[i]<0){
-            lutTab[i]=0;
-        }else if(lutTab[i]>255) {
-            lutTab[i]=255;
-        }
+        lutTab[i]=max(min((lutTab[i]), 255), 0);
     }
 }
 
@@ -89,19 +86,15 @@ void dimlum(int param, int *lutTab) {
 }
 
 void addcon(int param, int *lutTab) {
+    param=min(param, 128);
     for (int i = 0; i <= 255; i++){
-        if (param>128){
-            param=128;
-        }
         lutTab[i]=(lutTab[i]-param)*(255/(255-2*(float)param));
     }
 }
 
 void dimcon(int param, int *lutTab) {
+    param=min(param, 128);
     for (int i = 0; i <= 255; i++){
-        if (param>128){
-            param=128;
-        }
         lutTab[i]=lutTab[i]*((255-2*(float)param)/255)+param;
     }
 }
